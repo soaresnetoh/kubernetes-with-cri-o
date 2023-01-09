@@ -1,0 +1,19 @@
+- name: Retry a task until a certain condition is met
+  ansible.builtin.shell: kubectl get nodes
+  register: result
+  until: result.stdout.find("Ready") != -1
+  retries: 5
+  delay: 10
+
+
+# - name: Wait for port 6443 to become open on the host, don't start checking for 10 seconds
+#   ansible.builtin.wait_for:
+#     port: 6443
+#     delay: 10
+
+# - name: Wait for all k8s nodes to be ready
+#   shell: kubectl wait --for=condition=Ready nodes  -l 'node-role.kubernetes.io/control-plane' --timeout=600s
+#   # shell: kubectl wait --for=condition=Ready nodes --all --timeout=600s
+#   register: nodes_ready
+
+# - debug: var=nodes_ready.stdout_lines
